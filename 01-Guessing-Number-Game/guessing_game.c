@@ -70,11 +70,13 @@ int playgame() {
    }
 
    int number=rand()%range+1;
+   int prevdistance=-1;
 
    while (attempts<max_attempts) {
       printf("\nGuess a number between(1 to %d) :",range);
       scanf("%d",&guess);
       attempts++;
+      int distance=abs(number-guess);
       if (number>guess) {
          printf("TOO LOW !\n");
       } else if (number<guess) {
@@ -83,6 +85,16 @@ int playgame() {
          printf("YOU WON ! The number was %d. you took %d attempts to guess it.\n",number,attempts);
          return attempts;
       }
+      if (prevdistance!=-1) {
+         if (distance<prevdistance) {
+            printf("(hint--you are getting warmer)\n");
+         } else if (distance>prevdistance) {
+            printf("(hint--you are getting colder)\n");
+         } else if (distance==prevdistance) {
+            printf("(hint--you are same as before)\n");
+         }
+      }
+      prevdistance=distance;
       if (attempts==max_attempts) {
          printf("\nGAME OVER! ,The number was %d\n",number);
       }
