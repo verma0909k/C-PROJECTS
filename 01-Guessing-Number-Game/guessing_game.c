@@ -3,13 +3,15 @@
 #include <stdlib.h>
 
 void print_menu();
-void playgame();
+int playgame();
+void updatehighscore(int attempts);
 
 int main() {
    srand(time(NULL));
    char playagain;
    do {
-      playgame();
+      int attempts=playgame();
+      updatehighscore(attempts);
       printf("\nWANNA PLAY AGAIN ?(Y/N) :");
       scanf(" %c",&playagain);
    } while (playagain=='Y' || playagain=='y');
@@ -17,7 +19,26 @@ int main() {
 
    return 0;
 }
-void playgame() {
+void updatehighscore(int attempts) {
+   int best=-1;
+   FILE *ptr;
+   ptr=fopen("highscore.txt","r");
+   if (ptr!=NULL) {
+      fscanf(ptr,"%d",&best);
+      fclose(ptr);
+   }
+   if (attempts>0 && (best==-1 || attempts<best)) {
+      ptr=fopen("highscore.txt","w");
+      if (ptr!=NULL) {
+         fprintf(ptr,"%d",attempts);
+         fclose(ptr);
+         printf("\nNEW HIGHSCORE : %d\n",attempts);
+      }
+   } else if (best!=-1) {
+      printf("\nBEST SCORE SO FAR IS %d ATTEMPTS\n",best);
+   }
+}
+int playgame() {
    print_menu();
 
     int choice,range;
@@ -60,7 +81,7 @@ void playgame() {
          printf("TOO HIGH !\n");
       } else if (number==guess) {
          printf("YOU WON ! The number was %d. you took %d attempts to guess it.\n",number,attempts);
-         return;
+         return attempts;
       }
       if (attempts==max_attempts) {
          printf("\nGAME OVER! ,The number was %d\n",number);
@@ -69,6 +90,7 @@ void playgame() {
          printf("ATTEMPTS LEFT :%d\n",max_attempts-attempts);
       }
    }
+   return -1;
 }
 void print_menu() {
    printf("\n-----------------------------\n");
