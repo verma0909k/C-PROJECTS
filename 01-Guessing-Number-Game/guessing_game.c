@@ -3,14 +3,26 @@
 #include <stdlib.h>
 
 void print_menu();
+void playgame();
 
 int main() {
+   srand(time(NULL));
+   char playagain;
+   do {
+      playgame();
+      printf("\nWANNA PLAY AGAIN ?(Y/N) :");
+      scanf(" %c",&playagain);
+   } while (playagain=='Y' || playagain=='y');
+   printf("THANKS FOR PLAYING\n");
+
+   return 0;
+}
+void playgame() {
    print_menu();
 
     int choice,range;
    scanf("%d",&choice);
    int guess,max_attempts,attempts=0;
-   srand(time(NULL));
    
    switch (choice)
    {
@@ -48,7 +60,7 @@ int main() {
          printf("TOO HIGH !\n");
       } else if (number==guess) {
          printf("YOU WON ! The number was %d. you took %d attempts to guess it.\n",number,attempts);
-         break;
+         return;
       }
       if (attempts==max_attempts) {
          printf("\nGAME OVER! ,The number was %d\n",number);
@@ -57,10 +69,6 @@ int main() {
          printf("ATTEMPTS LEFT :%d\n",max_attempts-attempts);
       }
    }
-
-
-
-   return 0;
 }
 void print_menu() {
    printf("\n-----------------------------\n");
