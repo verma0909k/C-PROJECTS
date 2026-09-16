@@ -2,9 +2,15 @@
 #include <time.h>
 #include <stdlib.h>
 
+#define RED "\033[1;31m"
+#define BLUE "\033[1;34m"
+#define GREEN "\033[1;32m"
+#define RESET "\033[0m"
+
 void print_menu();
 int playgame();
 void updatehighscore(int attempts);
+int getvalidint();
 
 int main() {
    srand(time(NULL));
@@ -18,6 +24,15 @@ int main() {
    printf("THANKS FOR PLAYING\n");
 
    return 0;
+}
+int getvalidint() {
+   int value;
+   while (scanf("%d",&value)!=1) {
+      printf("ERROR :enter valid number\n");
+      while (getchar()!='\n');
+      printf("enter again :");
+   }
+   return value;
 }
 void updatehighscore(int attempts) {
    int best=-1;
@@ -41,8 +56,8 @@ void updatehighscore(int attempts) {
 int playgame() {
    print_menu();
 
-    int choice,range;
-   scanf("%d",&choice);
+   int choice,range;
+   choice=getvalidint();
    int guess,max_attempts,attempts=0;
    
    switch (choice)
@@ -71,18 +86,22 @@ int playgame() {
 
    int number=rand()%range+1;
    int prevdistance=-1;
-
+   time_t start;
+   start=time(NULL);
    while (attempts<max_attempts) {
       printf("\nGuess a number between(1 to %d) :",range);
-      scanf("%d",&guess);
+      guess=getvalidint();
       attempts++;
       int distance=abs(number-guess);
       if (number>guess) {
-         printf("TOO LOW !\n");
+         printf(BLUE "TOO LOW !\n" RESET);
       } else if (number<guess) {
-         printf("TOO HIGH !\n");
+         printf(RED "TOO HIGH !\n" RESET);
       } else if (number==guess) {
-         printf("YOU WON ! The number was %d. you took %d attempts to guess it.\n",number,attempts);
+         time_t end;
+         end=time(NULL);
+         printf(GREEN "YOU WON ! The number was %d. you took %d attempts to guess it.\n" RESET,number,attempts);
+         printf("TIME TAKEN : %d\n",(int)difftime(end,start));
          return attempts;
       }
       if (prevdistance!=-1) {
