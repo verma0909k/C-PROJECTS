@@ -12,51 +12,118 @@
 #define CYAN "\033[1;36m"
 #define BLACK "\033[1;30m"
 #define WHITE "\033[1;37m"
+#define ORANGE "\033[1;38;2;255;165;0m"
+#define BYE "\033[1;36;40m"
 
 void print_menu();
 int playgame();
 void updatehighscore(int attempts);
 int getvalidint();
 void mainmenu();
+void multiplayermode();
+void reversemode();
 
 int main() {
-   mainmenu();
-   int choice;
    char playagain;
-   choice=getvalidint();
-   switch (choice)
-   {
-   case 1:
-      srand(time(NULL));
-      do {
+   do {
+      mainmenu();
+      int choice;
+      choice=getvalidint();
+      switch (choice)
+      {
+      case 1:
+         srand(time(NULL));
          int attempts=playgame();
          updatehighscore(attempts);
-         printf("\nWANNA PLAY AGAIN ?(Y/N) :");
-         scanf(" %c",&playagain);
-      } while (playagain=='Y' || playagain=='y');
-      printf("THANKS FOR PLAYING\n");
-      break;
-   case 2:
-      
-      break;
-   default:
-      printf("EXIT : YOU ENTERED OTHER CHOICE");
-      break;
-   }
-
-
-
-   // char playagain;
-   // srand(time(NULL));
-   // do {
-   //    int attempts=playgame();
-   //    updatehighscore(attempts);
-   //    printf("\nWANNA PLAY AGAIN ?(Y/N) :");
-   //    scanf(" %c",&playagain);
-   // } while (playagain=='Y' || playagain=='y');
-   // printf("THANKS FOR PLAYING\n");
+         break;
+      case 2:
+         reversemode();
+         break;
+      case 3:
+         srand(time(NULL));
+         multiplayermode();
+         break;
+      default:
+         printf(RED"ERROR : YOU HAVE EXITED THE GAME\n"RESET);
+         return 1;
+      }
+      printf("\nWANNA PLAY AGAIN ?(Y/N) :");
+      scanf(" %c",&playagain);
+   } while (playagain=='Y' || playagain=='y');
+   printf(BYE"\n \nTHANKS FOR PLAYING.\nDEVELOPER : PIYUSH VERMA\nSTATE     : HARAYANA\n"RESET);
+   printf("\n");
 
    return 0;
+}
+void reversemode() {
+   int range,low=1,high,attempts=0,guess;
+   char ch;
+   printf("\nWELCOME TO THE WORLD OF GUESSING NUMBERS.\n \n");
+   printf(YELLOW"|| REVERSE MODE (instructions) ||\n"RESET);
+   printf(WHITE"* Player has to think a number.\n");
+   printf("* Computer will guess that number.\n");
+   printf("* Respond with 'h' if my guess is lower than the number.\n");
+   printf("* Respond with 'l' if my guess is higher than the number.\n");
+   printf("* Respond with 'c' if i guess correctly.\n"RESET);
+   printf("\nEnter the upper range for the computer to guess within(eg. 100) :");
+   range=getvalidint();
+   printf(YELLOW"--------------------------------------\n");
+   printf("Think of a number between(1 to %d) :\n",range);
+   printf("--------------------------------------\n"RESET);
+   high=range;
+   while (low<=high) {
+      guess=(low+high)/2;
+      printf("\nMy guess is %d (h/l/c) :",guess);
+      attempts++;
+      scanf(" %c",&ch);
+      if (ch=='h' || ch=='H') {
+         low=guess+1;
+      } else if (ch=='l' || ch=='L') {
+         high=guess-1;
+      } else if (ch=='c' || ch=='C') {
+         printf(GREEN"I GUESSED IT CORRECTLY !\nYOU CAME UP WITH %d.\nI TOOK %d ATTEMPTS.\n"RESET,guess,attempts);
+         return;
+      } else {
+         printf(RED"YOU ARE TRYING TO CHEAT -_- \n"RESET);
+         attempts--;
+      }
+   }
+   printf(RED"EITHER YOU MISUNDERSTOOD THE RULES :( OR YOU WERE TRYING TO CHEAT -_- \n"RESET);
+}
+void multiplayermode() {
+   int attempts1=0,attempts2=0,player=1,range,number,guess;
+   printf("\nWELCOME TO THE WORLD OF GUESSING NUMBERS.\n \n");
+   printf(YELLOW"|| MULTIPLAYER MODE (instructions) ||\n"RESET);
+   printf(WHITE"* There are two players who will guess the number.\n");
+   printf("* Each player gets their turn one by one.\n");
+   printf("* They can select custom range of their choice.\n");
+   printf("* First person to guess correctly wins the game.\n \n"RESET);
+   printf("Enter the upper range (eg. 100) : ");
+   range=getvalidint();
+   number=rand()%range+1;
+   time_t start;
+   start=time(NULL);
+   do {
+      printf("\nPLAYER %d TURN ==> enter your guess(1 to %d) :",player,range);
+      guess=getvalidint();
+      if (player==1) {
+         attempts1++;
+      } else if (player==2) {
+         attempts2++;
+      }
+      if (number<guess) {
+         printf(ORANGE "NUMBER IS SMALLER THAN GUESS\n" RESET);
+      } else if (number>guess) {
+         printf(BLUE "NUMBER IS GREATER THAN GUESS\n" RESET);
+      } else if (number==guess) {
+         time_t end;
+         end=time(NULL);
+         printf(GREEN "PLAYER %d WON !\nTHE NUMBER WAS %d\nTIME TAKEN : %ld SECONDS\n",player,number,(long)difftime(end,start));
+         printf("PLAYER 1 ATTEMPTS : %d\n",attempts1);
+         printf("PLAYER 2 ATTEMPTS : %d\n"RESET,attempts2);
+      }
+      player=player==1?2:1;
+   } while (number!=guess);
 }
 void mainmenu() {
    printf(CYAN "+--------------------------------+\n");
@@ -64,15 +131,11 @@ void mainmenu() {
    printf("+--------------------------------+\n");
    printf("| "YELLOW"1. START NEW GAME"CYAN"              |\n");
    printf("+--------------------------------+\n");
-   // printf("| "YELLOW"2. MULTIPLAYER"CYAN"                 |\n");
-   // printf("+--------------------------------+\n");
    printf("| "YELLOW"2. REVERSE MODE"CYAN"                |\n");
    printf("+--------------------------------+\n");
-   // printf("| "YELLOW"2. YOUR STATS"CYAN"                  |\n");
-   // printf("+--------------------------------+\n");
-   printf("|      "YELLOW"EXIT (ANY OTHER NO.)"CYAN"      |\n");
+   printf("| "YELLOW"3. MULTIPLAYER MODE"CYAN"            |\n");
    printf("+--------------------------------+\n" RESET);
-   printf("\nenter your choice :");
+   printf("enter your choice :");
 }
 int getvalidint() {
    int value;
@@ -145,7 +208,7 @@ int playgame() {
       if (number>guess && attempts!=max_attempts) {
          printf(BLUE "NUMBER IS GREATER THAN GUESS\n" RESET);
       } else if (number<guess && attempts!=max_attempts) {
-         printf(RED "NUMBER IS SMALLER THAN GUESS\n" RESET);
+         printf(ORANGE "NUMBER IS SMALLER THAN GUESS\n" RESET);
       } else if (number==guess) {
          time_t end;
          end=time(NULL);
@@ -164,7 +227,7 @@ int playgame() {
       }
       prevdistance=distance;
       if (attempts==max_attempts) {
-         printf(MAGENTA "GAME OVER !\nTHE NUMBER WAS %d\n" RESET,number);
+         printf(RED "GAME OVER !\nTHE NUMBER WAS %d\n" RESET,number);
          Beep(750,1000);
       }
       else {
