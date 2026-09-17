@@ -1,29 +1,78 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <windows.h>
 
 #define RED "\033[1;31m"
 #define BLUE "\033[1;34m"
 #define GREEN "\033[1;32m"
 #define RESET "\033[0m"
+#define YELLOW "\033[1;33m"
+#define MAGENTA "\033[1;35m"
+#define CYAN "\033[1;36m"
+#define BLACK "\033[1;30m"
+#define WHITE "\033[1;37m"
 
 void print_menu();
 int playgame();
 void updatehighscore(int attempts);
 int getvalidint();
+void mainmenu();
 
 int main() {
-   srand(time(NULL));
+   mainmenu();
+   int choice;
    char playagain;
-   do {
-      int attempts=playgame();
-      updatehighscore(attempts);
-      printf("\nWANNA PLAY AGAIN ?(Y/N) :");
-      scanf(" %c",&playagain);
-   } while (playagain=='Y' || playagain=='y');
-   printf("THANKS FOR PLAYING\n");
+   choice=getvalidint();
+   switch (choice)
+   {
+   case 1:
+      srand(time(NULL));
+      do {
+         int attempts=playgame();
+         updatehighscore(attempts);
+         printf("\nWANNA PLAY AGAIN ?(Y/N) :");
+         scanf(" %c",&playagain);
+      } while (playagain=='Y' || playagain=='y');
+      printf("THANKS FOR PLAYING\n");
+      break;
+   case 2:
+      
+      break;
+   default:
+      printf("EXIT : YOU ENTERED OTHER CHOICE");
+      break;
+   }
+
+
+
+   // char playagain;
+   // srand(time(NULL));
+   // do {
+   //    int attempts=playgame();
+   //    updatehighscore(attempts);
+   //    printf("\nWANNA PLAY AGAIN ?(Y/N) :");
+   //    scanf(" %c",&playagain);
+   // } while (playagain=='Y' || playagain=='y');
+   // printf("THANKS FOR PLAYING\n");
 
    return 0;
+}
+void mainmenu() {
+   printf(CYAN "+--------------------------------+\n");
+   printf("|      "WHITE"GUESSING NUMBER GAME"CYAN"      |\n");
+   printf("+--------------------------------+\n");
+   printf("| "YELLOW"1. START NEW GAME"CYAN"              |\n");
+   printf("+--------------------------------+\n");
+   // printf("| "YELLOW"2. MULTIPLAYER"CYAN"                 |\n");
+   // printf("+--------------------------------+\n");
+   printf("| "YELLOW"2. REVERSE MODE"CYAN"                |\n");
+   printf("+--------------------------------+\n");
+   // printf("| "YELLOW"2. YOUR STATS"CYAN"                  |\n");
+   // printf("+--------------------------------+\n");
+   printf("|      "YELLOW"EXIT (ANY OTHER NO.)"CYAN"      |\n");
+   printf("+--------------------------------+\n" RESET);
+   printf("\nenter your choice :");
 }
 int getvalidint() {
    int value;
@@ -93,18 +142,18 @@ int playgame() {
       guess=getvalidint();
       attempts++;
       int distance=abs(number-guess);
-      if (number>guess) {
-         printf(BLUE "TOO LOW !\n" RESET);
-      } else if (number<guess) {
-         printf(RED "TOO HIGH !\n" RESET);
+      if (number>guess && attempts!=max_attempts) {
+         printf(BLUE "NUMBER IS GREATER THAN GUESS\n" RESET);
+      } else if (number<guess && attempts!=max_attempts) {
+         printf(RED "NUMBER IS SMALLER THAN GUESS\n" RESET);
       } else if (number==guess) {
          time_t end;
          end=time(NULL);
-         printf(GREEN "YOU WON ! The number was %d. you took %d attempts to guess it.\n" RESET,number,attempts);
-         printf("TIME TAKEN : %d\n",(int)difftime(end,start));
+         printf(GREEN "YOU WON !\nTHE NUMBER WAS %d.\nYOU TOOK %d ATTEMPTS TO GUESS IT.\n" RESET,number,attempts);
+         printf(GREEN "TIME TAKEN : %ld SECONDS\n" RESET,(long)difftime(end,start));
          return attempts;
       }
-      if (prevdistance!=-1) {
+      if (prevdistance!=-1 && attempts!=max_attempts) {
          if (distance<prevdistance) {
             printf("(hint--you are getting warmer)\n");
          } else if (distance>prevdistance) {
@@ -115,7 +164,8 @@ int playgame() {
       }
       prevdistance=distance;
       if (attempts==max_attempts) {
-         printf("\nGAME OVER! ,The number was %d\n",number);
+         printf(MAGENTA "GAME OVER !\nTHE NUMBER WAS %d\n" RESET,number);
+         Beep(750,1000);
       }
       else {
          printf("ATTEMPTS LEFT :%d\n",max_attempts-attempts);
@@ -124,14 +174,11 @@ int playgame() {
    return -1;
 }
 void print_menu() {
-   printf("\n-----------------------------\n");
-   printf("GUESSING NUMBER GAME\n");
-   printf("-----------------------------\n");
    printf("\nWELCOME TO THE WORLD OF GUESSING NUMBERS.\n");
-   printf("\nCHOOSE DIFFICULTY :\n");
+   printf(YELLOW "\nCHOOSE DIFFICULTY :\n");
    printf("1. EASY     (1-50, 10 attempts)\n");
    printf("2. MEDIUM   (1-100, 7 attempts)\n");
    printf("3. HARD     (1-200, 6 attempts)\n");
-   printf("4. EXTREME  (1-500, 5 attempts)\n");
+   printf("4. EXTREME  (1-500, 5 attempts)\n" RESET);
    printf("enter your choice: ");
 }
