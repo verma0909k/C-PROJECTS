@@ -228,7 +228,7 @@ int playgame() {
       prevdistance=distance;
       if (attempts==max_attempts) {
          printf(RED "GAME OVER !\nTHE NUMBER WAS %d\n" RESET,number);
-         Beep(750,1000);
+         Beep(293,1000);
       }
       else {
          printf("ATTEMPTS LEFT :%d\n",max_attempts-attempts);
