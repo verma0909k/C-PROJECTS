@@ -17,7 +17,7 @@ Part of the [C-PROJECTS](../) repository.
 | Hard       | 1–200 | 6  |
 | Extreme    | 1–500 | 5  |
 
-- Greater / Smaller feedback after every guess
+- Greater / smaller feedback after every guess
 - Warmer / colder hints based on how your distance from the answer changes
 - Time taken and attempts used shown on a win
 - A beep on game over
@@ -36,10 +36,10 @@ Part of the [C-PROJECTS](../) repository.
 
 ```
 01-Guessing-Number-Game/
-├── guessing_game.c    # Complete source
-├── highscore.txt      # Best single-player score (auto-created)
 ├── .gitignore         # Ignores the compiled binary
-└── README.md
+├── README.md
+├── guessing_game.c    # Complete source
+└── highscore.txt      # Best single-player score (auto-created)  
 ```
 
 ---
@@ -61,7 +61,7 @@ a.exe
 
 | Component | Purpose |
 |-----------|---------|
-| `main()` | Menu loop and mode dispatch, with replay prompt |
+| `main()` | Menu loop and mode dispatch, with playagain prompt |
 | `playgame()` | Single-player round; returns attempts used |
 | `reversemode()` | Binary-search guessing by the computer |
 | `multiplayermode()` | Turn-based two-player round |
