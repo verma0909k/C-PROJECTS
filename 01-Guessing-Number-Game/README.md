@@ -30,6 +30,7 @@ Part of the [C-PROJECTS](../) repository.
 
 **Input Validation** — Non-numeric input is rejected and re-prompted instead of breaking the input stream.
 
+**Colored Output** _ Colored terminal output via ANSI escape code macros for menus and feedback.
 ---
 
 ## Project Structure
