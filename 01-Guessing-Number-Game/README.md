@@ -17,7 +17,7 @@ Part of the [C-PROJECTS](../) repository.
 | Hard       | 1–200 | 6  |
 | Extreme    | 1–500 | 5  |
 
-- Higher / lower feedback after every guess
+- Greater / Smaller feedback after every guess
 - Warmer / colder hints based on how your distance from the answer changes
 - Time taken and attempts used shown on a win
 - A beep on game over
