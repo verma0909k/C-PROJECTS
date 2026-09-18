@@ -61,7 +61,7 @@ a.exe
 
 | Component | Purpose |
 |-----------|---------|
-| `main()` | Menu loop and mode dispatch(using switch), with playagain prompt |
+| `main()` | Menu loop and mode dispatch, with playagain prompt |
 | `playgame()` | Single-player round; returns attempts used; beep on losing |
 | `reversemode()` | Binary-search guessing by the computer; handles cheating |
 | `multiplayermode()` | Turn-based two-player round; first to guess wins |
