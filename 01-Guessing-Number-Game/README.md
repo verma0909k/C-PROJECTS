@@ -22,7 +22,7 @@ Part of the [C-PROJECTS](../) repository.
 - Time taken and attempts used shown on a win
 - A beep on game over
 
-**Reverse Mode** — You think of a number, the computer guesses it. Uses binary search over the range you choose, so it converges in about `log₂(n)` guesses. Respond with `h` (higher), `l` (lower) or `c` (correct).
+**Reverse Mode** — You think of a number, the computer guesses it. Uses binary search over the range you choose, so it converges in about `log₂(n)` guesses. Respond with `h` (higher), `l` (lower) or `c` (correct): any other input is flagged as an attempt to cheat.
 
 **Multiplayer Mode** — Two players alternate turns on a custom range. First correct guess wins; per-player attempt counts and total time are reported.
 
