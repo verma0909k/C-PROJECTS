@@ -39,7 +39,7 @@ Each project folder contains:
 | # | Project Name | Concepts Used | Status |
 |---|---------------|----------------|--------|
 | 01 | [Guessing Number Game](./01-Guessing-Number-Game) | Loops, conditionals, `rand()`, user input | ✅ Done |
-| 02 | *Coming soon* | — | 🔜 Planned |
+| 02 | [Digital Clock](./02-Digital-Clock) | — | 🔜 Planned |
 | 03 | *Coming soon* | — | 🔜 Planned |
 | 04 | *Coming soon* | — | 🔜 Planned |
 | 05 | *Coming soon* | — | 🔜 Planned |
